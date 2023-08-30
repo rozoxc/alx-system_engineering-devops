@@ -1,8 +1,3 @@
 #!/bin/bash
-
-# Change working directory to the user's home directory
-cd ~
-
-# Print the new working directory
+cd ..
 echo "Changed working directory to: $(pwd)"
-
