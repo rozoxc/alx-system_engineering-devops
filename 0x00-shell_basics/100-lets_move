@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -maxdepth 2 -type f -name '[A-Z]' -exec mv {} /tmp/u \
+find . -maxdepth 2 -type f -name '[A-Z]*'  mv -t /tmp/u {} +
