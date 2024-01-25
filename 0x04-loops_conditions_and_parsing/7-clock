@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 # This script is displaying "Best School" 10 times
-for ((i=0; i<=12; i++)); do
+
+i=0
+end=13
+
+while [ $i -lt $end ]; do
 	echo "Hour: $i"
-	if [ $i == 12 ]; then
+
+	if [ $i -eq 12 ]; then
 		exit
 	fi
-	for ((j=1; j<60; j++)); do
-		echo "$j"
-	done
-done
 
+	j=1
+	while [ $j -lt 60 ]; do
+		echo "$j"
+		((j++))
+	done
+
+	((i++))
+done
