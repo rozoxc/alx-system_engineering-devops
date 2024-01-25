@@ -7,10 +7,6 @@ end=13
 while [ $i -lt $end ]; do
 	echo "Hour: $i"
 
-	if [ $i -eq 12 ]; then
-		break
-	fi
-
 	j=1
 	while [ $j -lt 60 ]; do
 		echo "$j"
