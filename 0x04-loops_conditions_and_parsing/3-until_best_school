@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # This script displays "Best School" until the value of i is greater than or equal to 10
 end=0
 i=9
