@@ -8,7 +8,7 @@ while [ $i -lt $end ]; do
 	echo "Hour: $i"
 
 	if [ $i -eq 12 ]; then
-		exit
+		break
 	fi
 
 	j=1
