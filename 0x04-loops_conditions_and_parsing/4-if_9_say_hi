@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script is displaying "Best School" 10 times
-i=10
+i=11
 end=0
 while [ $i -gt $end ]; do
 	if [ $i -eq 2 ]; then
