@@ -9,12 +9,12 @@ while [ $i -lt $end ]; do
 			echo "$i"
 			;;
 		10)
-			echo "bad luck from china"
+			echo "bad luck from Japan"
 			echo "$i"
 			;;
 		18)
 
-			echo "bad luck from china"
+			echo "bad luck from Italy"
 			echo "$i"
 			;;
 		*)
