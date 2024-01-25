@@ -4,7 +4,7 @@ i=1
 end=21
 while [ $i -lt $end ]; do
 	case "$i" in
-		4)
+		5)
 			echo "bad luck from China"
 			echo "$i"
 			;;
