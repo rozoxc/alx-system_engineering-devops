@@ -1,21 +1,6 @@
 #!/usr/bin/env bash
+# configure nginx to listen on port 80
 
-# Install netcat (nc) if not already installed
-apt-get update
-apt-get install -y netcat
-
-# Check if Nginx is running
-nginx_status=$(service nginx status)
-if [[ "$nginx_status" != *"active (running)"* ]]; then
-    # If Nginx is not running, start it
-    service nginx start
-fi
-
-# Check if Nginx is listening on port 80
-nc -zv 0 80 &>/dev/null
-if [ $? -ne 0 ]; then
-    # If Nginx is not listening on port 80, update Nginx configuration to listen on port 80
-    sed -i 's/\(listen \)\([0-9]*\)/\180/' /etc/nginx/sites-available/default
-    # Reload Nginx configuration
-    service nginx reload
-fi
+sed -i 's/listen [0-9]* default_server;/listen 80 default_server;/' /etc/nginx/sites-enabled/default
+sed -i 's/listen \[::\]:[0-9]* default_server;/listen \[::\]:80 default_server;/' /etc/nginx/sites-enabled/default
+service nginx restart
