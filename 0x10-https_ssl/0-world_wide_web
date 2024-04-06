@@ -1,29 +1,23 @@
 #!/usr/bin/env bash
 # A Bash script that will display information about the subdomains
+get_dns_info() {
+    local domain=$1
+    local subdomain=$2
 
-# Check if at least one argument is provided
-if [ $# -lt 1 ]; then
-  echo "Usage: $0 domain [subdomain1 subdomain2 ...]"
-  exit 1
-fi
+    if [ -z "$subdomain" ]; then
+        subdomains=("www" "lb-01" "web-01" "web-02")
+    else
+        subdomains=("$subdomain")
+    fi
 
-# Set domain name
-domain="$1"
+    for sub in "${subdomains[@]}"; do
+        result=$(dig +short "$sub.$domain")
+        if [ -n "$result" ]; then
+            record_type=$(dig "$sub.$domain" | awk '/ANSWER SECTION/ {getline; print $4}')
+            echo "The subdomain $sub is a $record_type record and points to $result"
+        fi
+    done
+}
 
-# Set subdomains to query
-subdomains=("www" "lb-01" "web-01" "web-02")
+get_dns_info "$1" "$2"
 
-# If additional subdomains are provided as arguments, add them to the subdomains array
-if [ $# -gt 1 ]; then
-  subdomains+=("${@:2}")
-fi
-
-# Loop through subdomains and display information
-for subdomain in "${subdomains[@]}"; do
-  output=$(dig "$subdomain.$domain" +short)
-  if [ -n "$output" ]; then
-    echo "The subdomain $subdomain has IP address $output"
-  else
-    echo "The subdomain $subdomain does not exist"
-  fi
-done
