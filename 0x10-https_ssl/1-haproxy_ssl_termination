@@ -1,25 +1,23 @@
-sudo apt-get update
-sudo apt-get install certbot
-sudo certbot certonly --standalone -d www.example.com
-# /etc/haproxy/haproxy.cfg
-
 global
-    ssl-default-bind-ciphers TLS13-AES-256-GCM-SHA384:TLS13-CHACHA20-POLY1305-SHA256:TLS_AES_128_GCM_SHA256
-    ssl-default-bind-options no-sslv3 no-tlsv10 no-tlsv11 no-tls-tickets
+        log /dev/log    local0
+	stats socket /run/haproxy/admin.sock mode 660 level admin
 
 defaults
-    mode http
-    timeout connect 5s
-    timeout client 50s
-    timeout server 50s
+        log     global
+        mode    http
+        option  httplog
+	timeout connect  10s
+	timeout client  30s
+	timeout server  30s
 
-frontend https
-    bind *:443 ssl crt /etc/letsencrypt/live/www.saheed.tech/fullchain.pem
-    default_backend backend_servers
+frontend th3gr00t-tech-frontend
+	bind *:80
+	bind *:443 ssl crt /etc/haproxy/certs/th3gr00t.tech.pem
+	http-request redirect scheme https unless { ssl_fc }
+	http-request set-header X-Forwarded-Proto https
+	default_backend th3gr00t-tech-backend
 
-backend backend_servers
-    balance roundrobin
-    option httpchk GET / HTTP/1.1\r\nHost:\ www.r0z0x.tech
-    server 108440-web-01 100.25.10.16:80 check
-    server 108440-web-02 100.25.47.104:80 check
-sudo service haproxy restart
+backend th3gr00t-tech-backend
+	balance roundrobin
+	server 453-web-01 35.243.128.200:80 check
+	server 453-web-02 3.239.120.96:80 check
