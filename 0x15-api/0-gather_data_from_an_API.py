@@ -10,7 +10,7 @@ def ghater_information(employee_id):
         response = requests.get(url)
         if response.status_code == 200:
             user = response.json()
-            response = requests.get(url_todo)
+    	    response = requests.get(url_todo)
             if response.status_code == 200:
                 todos = response.json()
                 complected_todos = []
@@ -32,6 +32,5 @@ if __name__ == "__main__":
       '''only one argument'''
       if len(argv) == 2 and argv[1].isdigit():
         ghater_information(argv[1])
-      elif len(argv) == 1:
+      else:
         print("Usage: ./0-gather_data_from_an_API.py <employee ID>")
-
