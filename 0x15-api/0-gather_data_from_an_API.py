@@ -1,40 +1,30 @@
-"""gather data from an API"""
+#!/usr/bin/python3
+"""r a given employee ID, returns information about
+their TODO list progress"""
+
 import requests
-from sys import argv
-
-
-def gatherData(employeeID):
-    """Gather data from an API and print it"""
-    todo_url = f"https://jsonplaceholder.typicode.com/users/{employeeID}/todos"
-    user_url = f"https://jsonplaceholder.typicode.com/users/{employeeID}"
-
-    try:
-        response = requests.get(user_url)
-        if response.status_code == 200:
-            user = response.json()
-            response = requests.get(todo_url)
-            if response.status_code == 200:
-                todos = response.json()
-                completed = []
-                for todo in todos:
-                    if todo['completed'] is True:
-                        completed.append(todo)
-                print("Employee {} is done with tasks({}/{}):"
-                      .format(user['name'], len(completed), len(todos)))
-                for todo in completed:
-                    print("\t {}".format(todo['title']))
-            else:
-                print("An error occured")
-        else:
-            print("An error occured")
-    except (Exception):
-        print("An error occured")
-        return 0
-
+import sys
 
 if __name__ == "__main__":
-    """ Only executes as main"""
-    if len(argv) == 2 and argv[1].isdigit():
-        gatherData(argv[1])
-    else:
-        print("Usage: ./0-gather_data_from_an_API.py <employee ID>")
+
+    userId = sys.argv[1]
+    user = requests.get("https://jsonplaceholder.typicode.com/users/{}"
+                        .format(userId))
+
+    name = user.json().get('name')
+
+    todos = requests.get('https://jsonplaceholder.typicode.com/todos')
+    totalTasks = 0
+    completed = 0
+
+    for task in todos.json():
+        if task.get('userId') == int(userId):
+            totalTasks += 1
+            if task.get('completed'):
+                completed += 1
+
+    print('Employee {} is done with tasks({}/{}):'
+          .format(name, completed, totalTasks))
+
+    print('\n'.join(["\t " + task.get('title') for task in todos.json()
+          if task.get('userId') == int(userId) and task.get('completed')]))
