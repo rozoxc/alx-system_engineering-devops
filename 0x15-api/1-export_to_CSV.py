@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """ghather data from an API"""
 import csv
 import requests
