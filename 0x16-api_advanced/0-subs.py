@@ -1,4 +1,6 @@
+#!/usr/bin/pyhton3
 """subs.py """
+
 import requests
 
 
